@@ -4,6 +4,13 @@ import { db } from '../config/dbConnect.js';
 
 const router = express.Router();
 
+// Show all projects
+router.get('/', async (req, res) => {
+   const collection = await db.collection('users');
+   const result = await collection.find({}).toArray();
+   res.status(200).json(result);
+});
+
 // POST /users - Create a new user with basic validation
 router.post('/', async (req, res) => {
     const { name, email, password } = req.body;
