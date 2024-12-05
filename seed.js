@@ -1,6 +1,6 @@
 import axios from 'axios';
 import 'dotenv/config.js';
-import { db } from './config/dbconnect.js';
+import { db } from './config/dbConnect.js';
 
 // Generate a project for each user
 const generateProjects = (users, numberOfProjects) => {
@@ -23,7 +23,6 @@ const generateProjects = (users, numberOfProjects) => {
             endDate: new Date(new Date().setMonth(new Date().getMonth() + 3)),
             status: 'In Progress',
             createdAt: new Date(),
-            updatedAt: new Date(),
             userId: user._id
         };
         projects.push(randomProject);
@@ -48,7 +47,6 @@ const generateTasks = (projects, numberOfTasks) => {
                 status: 'Pending',
                 dueDate: new Date(new Date().setDate(new Date().getDate() + 7)),
                 createdAt: new Date(),
-                updatedAt: new Date(),
                 projectId: project._id,
                 userId: project.userId
             });
@@ -73,7 +71,6 @@ const seedDatabase = async () => {
             password: user.login.sha1, 
             picture: user.picture.large,
             createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
         }));
 
         console.log(`Users fetched from API`);
@@ -105,5 +102,4 @@ const seedDatabase = async () => {
         process.exit(0); 
     }
 };
-
 seedDatabase();
