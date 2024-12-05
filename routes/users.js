@@ -1,20 +1,50 @@
-import { db } from '../config/dbConnect.js'
-import express from 'express'
+import { ObjectId } from 'mongodb';
+import express from 'express';
+import { db } from '../config/dbConnect.js';
 
- const router =  express.Router()
+const router = express.Router();
 
-//show the users in database 
- router.get('/', async (req, res)=>{
-    let collection = await db.collection('users');
-    let result = await collection.find({}).toArray();
-    res.send(result)
- });
+// POST /users - Create a new user with basic validation
+router.post('/', async (req, res) => {
+    const { name, email, password } = req.body;
 
-// //create  anew user
-// router.post('/', sync(req, res)=>{
+    // Basic validation for required fields
+    if (!name || !email || !password) {
+        return res.status(400).json({ message: 'Name, email, and password are required' });
+    }
 
-// })
+    try {
+        const collection = await db.collection('users');
+        const result = await collection.insertOne({
+            name,
+            email,
+            password,  // Ideally, hash this in production
+            createdAt: new Date(),
+        });
+        res.status(201).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Error creating user', error });
+    }
+});
 
+// DELETE /users/:userID - Delete a user
+router.delete('/:userID', async (req, res) => {
+    const userID = req.params.userID;
 
+    // Validate ObjectId
+    if (!ObjectId.isValid(userID)) {
+        return res.status(400).json({ message: 'Invalid user ID' });
+    }
 
-export  default router;
+    try {
+        const result = await db.collection('users').deleteOne({ _id: new ObjectId(userID) });
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting user', error });
+    }
+});
+
+export default router;

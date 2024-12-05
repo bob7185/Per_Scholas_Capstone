@@ -1,7 +1,6 @@
 import axios from 'axios';
 import 'dotenv/config.js';
 import { db } from './config/dbConnect.js';
-
 // Generate a project for each user
 const generateProjects = (users, numberOfProjects) => {
     const projects = [];
@@ -54,7 +53,6 @@ const generateTasks = (projects, numberOfTasks) => {
     });
     return tasks;
 };
-
 // Seed database function
 const seedDatabase = async () => {
     console.log('Seeding database...');
@@ -97,7 +95,6 @@ const seedDatabase = async () => {
         console.error('Error seeding database:', error);
     }
     finally {
-     
         console.log('Exiting process.');
         process.exit(0); 
     }

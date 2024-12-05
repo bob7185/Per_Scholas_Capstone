@@ -4,7 +4,7 @@ const {MONGODB_URI, MONGODB_DATABASE} = process.env;
 //create a new MongoDb client 
 const client =  new MongoClient(MONGODB_URI); 
 
-//attemtpitng to connect to the cluster 
+//attemtting to connect to the cluster 
 try{
     await client.connect();
     console.log(`Connected to MongoDB Atlas`)
