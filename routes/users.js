@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
         const result = await collection.insertOne({
             name,
             email,
-            password,  // Ideally, hash this in production
+            password,  
             createdAt: new Date(),
         });
         res.status(201).json(result);

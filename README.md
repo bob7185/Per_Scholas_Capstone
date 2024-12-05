@@ -21,7 +21,7 @@ This API allows you to manage users, projects, and tasks for a project managemen
 | `DELETE`| `/tasks/:taskID`                     | Delete a task by ID                                | Delete             |
 
 ---
-
+ 
 ## Example Responses
 
 #### POST /users (User Creation)
