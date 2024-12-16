@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
 import {
   FormControl,
   Input,
@@ -19,7 +20,7 @@ export default function SignUp() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const submitForm = () => alert("Sign up succesful. You are now logged in");
+  const submitForm = () => toast.success("Sign up succesful. You are now logged in");
 
   return (
     <Box p="4" maxW="lg" mx="auto">
@@ -30,10 +31,9 @@ export default function SignUp() {
         fontWeight="semibold"
         my="7"
       >
-        {" "}
         Create an Account
       </Heading>
-      <form>
+      <form onSubmit={handleSubmit(submitForm)}>
         <Stack gap="4">
           {/* Username field input */}
           <FormControl isInvalid={errors.username}>
