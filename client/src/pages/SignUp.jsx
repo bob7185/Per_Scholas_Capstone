@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { API_URL } from "../utilities";
+import { useUser } from "../context/Context";
 import axios from "axios";
 
 import {
@@ -17,6 +18,8 @@ import {
 } from "@chakra-ui/react";
 
 export default function SignUp() {
+  const  {updateUser} = useUser();
+  const navigate = useNavigate();
   const {
     handleSubmit,
     register,
@@ -37,6 +40,9 @@ export default function SignUp() {
       // IF request wa succesfully submitted
       if (response.status === 200) {
         toast.success("You signed up successfully. You are now logged in!");
+        updateUser(response.data);
+        //automatically navigate to Profile
+        navigate('/profile');
       } else {
         toast.error("Error posting data");
       }
