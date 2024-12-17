@@ -1,6 +1,9 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { API_URL } from "../utilities";
+import axios from "axios";
+
 import {
   FormControl,
   Input,
@@ -20,8 +23,27 @@ export default function SignUp() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const submitForm = () => toast.success("Sign up succesful. You are now logged in");
-
+  const submitForm = async (formValues) => {
+    try {
+      const response = await axios.post(
+        `${API_URL}/auth/signup`,
+        JSON.stringify(formValues),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      // IF request wa succesfully submitted
+      if (response.status === 200) {
+        toast.success("You signed up successfully. You are now logged in!");
+      } else {
+        toast.error("Error posting data");
+      }
+    } catch (error) {
+      toast.error("Something went wrong");
+    }
+  };
   return (
     <Box p="4" maxW="lg" mx="auto">
       <Heading
@@ -35,6 +57,18 @@ export default function SignUp() {
       </Heading>
       <form onSubmit={handleSubmit(submitForm)}>
         <Stack gap="4">
+          {/* Username field input */}
+          <FormControl isInvalid={errors.name}>
+            <Input
+              id="name"
+              type="text"
+              placeholder="name"
+              {...register("name", { required: "name is required" })}
+            />
+            <FormErrorMessage>
+              {errors.username && errors.name.message}
+            </FormErrorMessage>
+          </FormControl>
           {/* Username field input */}
           <FormControl isInvalid={errors.username}>
             <Input

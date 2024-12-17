@@ -22,7 +22,7 @@ router.post('/:projectID/tasks', async (req, res) => {
         priority,
         status,
         dueDate,
-        createdAt: new Date(),
+        createdAt: new Date().toISOString(),
         projectId: new ObjectId(req.params.projectID), // Link task to project
         userId: new ObjectId(userId), // Link task to user
     };

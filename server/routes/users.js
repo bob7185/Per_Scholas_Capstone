@@ -4,7 +4,7 @@ import { db } from '../config/dbConnect.js';
 
 const router = express.Router();
 
-// Show all projects
+// Show all users
 router.get('/', async (req, res) => {
    const collection = await db.collection('users');
    const result = await collection.find({}).toArray();
@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
             name,
             email,
             password,  
-            createdAt: new Date(),
+            createdAt: new Date().toISOString(),
         });
         res.status(201).json(result);
     } catch (error) {
