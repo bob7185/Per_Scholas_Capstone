@@ -6,10 +6,12 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
 import Profile from "./pages/Profile";
+import Nav from "./components/Nav";
 
 function App() {
   return (
     <BrowserRouter>
+    <Nav/>
       <Toaster position="bottom-right" />
       <Routes>
         <Route path="/" element={<Home />} />
