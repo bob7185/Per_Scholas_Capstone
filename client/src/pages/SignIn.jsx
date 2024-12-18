@@ -47,7 +47,7 @@ export default function SignIn() {
         toast.error("Error sending data to the server");
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error('Plese verify your credentials ad try again!');
     }
   };
 

@@ -69,7 +69,7 @@ router.post('/signin', async (req, res)=>{
 
 //sign out middleware. 
 router.get('/signout', async (req, res)=>{
-    //clear te cookie and sign out
+    //clear the cookie and sign out
     try{
         res.clearCookie('token');
         res.status(200).json({message: 'Signed out succesfully!'});
