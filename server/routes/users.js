@@ -1,6 +1,8 @@
 import { ObjectId } from 'mongodb';
 import express from 'express';
 import { db } from '../config/dbConnect.js';
+import bcrypt from 'bcrypt'
+
 
 const router = express.Router();
 
@@ -52,25 +54,54 @@ const validateToken = (req, res, next)=>{
     });
 }
 
-
-// DELETE /users/:userID - Delete a user
-router.delete('/:userID', async (req, res) => {
+// DELETE  /users/:userID - Delete a user
+router.delete('/:userID', validateToken, async (req, res) => {
     const userID = req.params.userID;
-
-    // Validate ObjectId
-    if (!ObjectId.isValid(userID)) {
-        return res.status(400).json({ message: 'Invalid user ID' });
+    if (req.user.id !== userID)
+    {
+        return (
+            res.status(403).json({message: 'You can only delete your own account'})
+        )
     }
-
     try {
         const result = await db.collection('users').deleteOne({ _id: new ObjectId(userID) });
-        if (result.deletedCount === 0) {
-            return res.status(404).json({ message: 'User not found' });
-        }
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting user', error });
     }
 });
+
+// Put  /users/:userID - Update a user
+router.put('/:userID', validateToken, async (req, res)=>{
+    const userID = req.params.userID;
+    if (req.user.id !== userID)
+    {
+        return (
+            res.status(403).json({message: 'You can only update your own account'})
+        )
+    }
+
+    const collection = await db.collection('users');
+    try{
+        //If user asked to update the password
+        if(req.body.password)
+        {
+            req.body.password = await bcrypt.hash(req.body.password, 10);
+        }
+        const query = { _id: new ObjectId(userID) };
+        const updates = {
+            $set: {
+                ...req.body,
+                updatedAt: new Date().toISOString(),
+            },
+        }
+         await collection.updateOne(query, updates);
+        res.status(200).json({ message: 'User updated' });
+    }
+    catch(error){
+        res.status(500).json({ message: 'Error updateing user', error });
+    }
+
+})
 
 export default router;
