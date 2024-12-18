@@ -72,7 +72,7 @@ export default function Home() {
           alignItems='center'
         >
           <Text fontSize='2xl' color='blue.700'>
-            Your Image Here
+            PlaceHolder for Image
           </Text>
         </Box>
       </Box>

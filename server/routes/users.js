@@ -34,6 +34,25 @@ router.post('/', async (req, res) => {
     }
 });
 
+// middleware that will check the token parsed by cookie-parser, 
+const validateToken = (req, res, next)=>{
+    const token = req.cookies.token;
+    // if req body doesn't have a token it means user is not authenticated
+    if(!token){
+        return next({status: 400, message: 'Unauthorized' });
+    } 
+    //decrypt token in the request body 
+    jwt.verify(token, process.env.AUTH_SECRET, (err, user) =>{
+        if (err)
+        {
+            return  next({status: 402, message: 'Forbidden'});
+        }
+        req.user = user;
+        next();
+    });
+}
+
+
 // DELETE /users/:userID - Delete a user
 router.delete('/:userID', async (req, res) => {
     const userID = req.params.userID;
