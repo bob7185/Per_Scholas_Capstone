@@ -77,7 +77,6 @@ export default function SignUp() {
         >
           Create an Account
         </Heading>
-
         {/* Form */}
         <form onSubmit={handleSubmit(submitForm)}>
           <Stack spacing={5}>
