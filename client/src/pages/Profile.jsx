@@ -63,8 +63,36 @@ export default function Profile() {
     }
   }
 
+  // delete user, reset user context  and redirect to Home page
   const deleteUser = async () => {
-    
+    try {
+        const response = await axios.delete(`${API_BASE_URL}/users/delete/${user._id}`, {
+          withCredentials: true,
+        });
+        if (response.status === 200) {
+          toast.success('User has been deleted!');
+          updateUser(null);
+          navigate('/');
+        } else {
+          toast.error('Error sending request to the server');
+        }
+      } catch (error) {
+        toast.error('Error deleting the user');
+      }
+  }
+
+  // handle the signout action  and send user back to home page
+  const signUserOut = async ()=>{
+    try {
+        const response = await axios.get(`${API_BASE_URL}/auth/signout`, {
+          withCredentials: true,
+        });
+        toast.success('You successfully signed out!');
+        updateUser(null);
+        navigate('/');
+      } catch (error) {
+        toast.error(error);
+      }
   }
     return <h1>Profile Page</h1>
 }

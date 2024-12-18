@@ -54,8 +54,8 @@ const validateToken = (req, res, next)=>{
     });
 }
 
-// DELETE  /users/:userID - Delete a user
-router.delete('/:userID', validateToken, async (req, res) => {
+// DELETE  /users/delete/:userID - Delete a user
+router.delete('/delete/:userID', validateToken, async (req, res) => {
     const userID = req.params.userID;
     if (req.user.id !== userID)
     {

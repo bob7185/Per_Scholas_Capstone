@@ -26,14 +26,14 @@ export default function Nav() {
   const signOut = async () => {
     try {
       const response = await axios.get(`${API_URL}/auth/signout`, {
-        credentials: "include",
+        withCredentials: true,
       });
       if (response.status === 200) {
         toast.success("User logged out!");
         updateUser(null);
         navigate("/");
       } else {
-        toast.error("Something went wrong!");
+        toast.error("Error sending request to the server");
       }
     } catch (error) {
       toast.error("Error logging out. Please try again.");
