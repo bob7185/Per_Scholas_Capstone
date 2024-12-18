@@ -4,7 +4,36 @@ import { ObjectId } from 'mongodb';
 
 const router = express.Router();
 
-// Show all tasks in a project
+// Show all tasks by a user 
+router.get("/:userID", async (req, res)=>{
+    const collection = await db.collection('tasks');
+    try {
+        const query = { userID: new ObjectId(req.params.userID) };
+        const tasks = await collection.find(query).toArray();
+        res.status(200).json({ tasks });
+      } catch (error) {
+        next({ status: 500, error });
+      }
+})
+
+// get a single task
+router.get('/user/:taskID', async (req, res)=>{
+    const collection = await db.collection('tasks');
+    try {
+        const query = { _id: new ObjectId(req.params.taskID) };
+        const task = await collection.findOne(query);
+    
+        if (!task) {
+          return next({ status: 404, message: 'Task not found!' });
+        }
+    
+        res.status(200).json(task);
+      } catch (error) {
+        next({ status: 500, error });
+      }
+})
+
+
 router.get('/:projectID', async (req, res) => {
     const collection = await db.collection('tasks');
     const query = { projectId: new ObjectId(req.params.projectID) };
@@ -69,6 +98,11 @@ router.put('/:taskID/unassign', async (req, res) => {
     res.status(200).json({ message: 'Task unassigned from user' });
 });
 
+// get all tasks by a user 
+router.get('', async (req,res)=>{
+
+})
+
 // Delete a task
 router.delete('/:taskID', async (req, res) => {
     const collection = await db.collection('tasks');
@@ -81,3 +115,5 @@ router.delete('/:taskID', async (req, res) => {
 });
 
 export default router;
+
+

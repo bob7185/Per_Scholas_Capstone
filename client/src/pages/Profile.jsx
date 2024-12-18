@@ -1,4 +1,3 @@
-
 import { useForm } from "react-hook-form";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -21,12 +20,10 @@ import {
   Divider,
 } from "@chakra-ui/react";
 
-
 export default function Profile() {
   const { user, updateUser } = useUser();
   const navigate = useNavigate();
 
-  //defaultValues populate the form with default value for the form fields
   const {
     register,
     handleSubmit,
@@ -34,8 +31,8 @@ export default function Profile() {
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      username: user.username,
-      email: user.email,
+      username: user?.username || "",
+      email: user?.email || "",
     },
   });
 
@@ -45,51 +42,48 @@ export default function Profile() {
         `${API_URL}/users/${user._id}`,
         formValues,
         {
-            withCredentials: true,
+          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },
         }
       );
-      //If request is succesful, reset password field and update usercontext
       if (response.status === 200) {
-        resetField('password');
+        resetField("password");
         updateUser(response.data);
-        toast.success("profile update successful!");
+        toast.success("Profile updated successfully!");
       } else {
         toast.error("Error sending request to the server");
       }
     } catch (error) {
       toast.error("Profile update error");
     }
-  }
+  };
 
-  // delete user, reset user context  and redirect to Home page
   const deleteUser = async () => {
     try {
-        const response = await axios.delete(`${API_BASE_URL}/users/delete/${user._id}`, {
-          withCredentials: true,
-        });
-        if (response.status === 200) {
-          toast.success('User has been deleted!');
-          updateUser(null);
-          navigate('/');
-        } else {
-          toast.error('Error sending request to the server');
-        }
-      } catch (error) {
-        toast.error('Error deleting the user');
+      const response = await axios.delete(`${API_URL}/users/delete/${user._id}`, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        toast.success("Account deleted!");
+        updateUser(null);
+        navigate("/");
+      } else {
+        toast.error("Error sending request to the server");
       }
-  }
+    } catch (error) {
+      toast.error("Error deleting the user");
+    }
+  };
 
-  // handle the signout action  and send user back to home page
   const signOut = async () => {
     try {
       const response = await axios.get(`${API_URL}/auth/signout`, {
         withCredentials: true,
       });
       if (response.status === 200) {
-        toast.success("User logged out!");
+        toast.success("Signed out successfully!");
         updateUser(null);
         navigate("/");
       } else {
@@ -98,100 +92,121 @@ export default function Profile() {
     } catch (error) {
       toast.error("Error logging out. Please try again.");
     }
-  }
-  return (
-    <Box p='3' maxW='lg' mx='auto'>
+  };
 
+  return (
+    <Box bg="white" p="6" maxW="lg" mx="auto" borderRadius="lg" boxShadow="sm">
       <Heading
-        as='h1'
-        fontSize='3xl'
-        fontWeight='semibold'
-        textAlign='center'
-        my='7'
+        as="h1"
+        fontSize="3xl"
+        fontWeight="semibold"
+        textAlign="center"
+        color="blue.600"
+        mb="6"
       >
         Your Profile
       </Heading>
+
       <form onSubmit={handleSubmit(submitForm)}>
-        <Stack gap='4'>
+        <Stack spacing="5">
           <FormControl isInvalid={errors.username}>
             <Input
-              id='username'
-              type='text'
-              placeholder='username'
-              {...register('username', { required: 'Username is required' })}
+              id="username"
+              type="text"
+              placeholder="Username"
+              {...register("username", { required: "Username is required" })}
             />
             <FormErrorMessage>
               {errors.username && errors.username.message}
             </FormErrorMessage>
           </FormControl>
+
           <FormControl isInvalid={errors.email}>
             <Input
-              id='email'
-              type='email'
-              placeholder='email'
-              {...register('email', { required: 'Email is required' })}
+              id="email"
+              type="email"
+              placeholder="Email"
+              {...register("email", { required: "Email is required" })}
             />
             <FormErrorMessage>
               {errors.email && errors.email.message}
             </FormErrorMessage>
           </FormControl>
+
           <FormControl isInvalid={errors.password}>
             <Input
-              id='password'
-              type='password'
-              placeholder='New password'
-              {...register('password', { required: 'Password is required' })}
+              id="password"
+              type="password"
+              placeholder="New password"
+              {...register("password", { required: "Password is required" })}
             />
             <FormErrorMessage>
               {errors.password && errors.password.message}
             </FormErrorMessage>
           </FormControl>
+
           <Button
-            type='submit'
+            type="submit"
             isLoading={isSubmitting}
-            colorScheme='teal'
-            textTransform='uppercase'
+            colorScheme="teal"
+            size="lg"
+            textTransform="uppercase"
           >
             Update Profile
           </Button>
         </Stack>
       </form>
-      <Stack gap='4' mt='5'>
+
+      <Divider my="6" />
+
+      <Stack spacing="4">
         <Link
           as={RouterLink}
-          to='/createTask'
-          p='2'
-          bg='green.500'
-          rounded='lg'
-          textTransform='uppercase'
-          textAlign='center'
-          textColor='white'
-          fontWeight='semibold'
-          _hover={{ bg: 'green.600' }}
+          to="/createTask"
+          p="3"
+          bg="green.500"
+          rounded="md"
+          textAlign="center"
+          color="white"
+          fontWeight="semibold"
+          _hover={{ bg: "green.600" }}
         >
           Create New Task
         </Link>
-        <Flex justify='space-between'>
-          <Text as='span' color='red.600' cursor='pointer' onClick={deleteUser} >
+
+        <Flex justifyContent="space-between">
+          <Text
+            as="span"
+            color="red.500"
+            fontWeight="medium"
+            cursor="pointer"
+            onClick={deleteUser}
+            _hover={{ textDecoration: "underline" }}
+          >
             Delete Account
           </Text>
+
           <Text
-            as='span'
-            color='red.600'
-            cursor='pointer'
+            as="span"
+            color="red.500"
+            fontWeight="medium"
+            cursor="pointer"
             onClick={signOut}
+            _hover={{ textDecoration: "underline" }}
           >
             Sign Out
           </Text>
         </Flex>
-        <Text textAlign='center'>
+
+        <Text textAlign="center">
           <Link
             as={RouterLink}
-            to='/tasks'
-            color='teal'
-            _hover={{ textDecor: 'none' }}
+            to="/tasks"
+            color="teal.500"
+            fontWeight="semibold"
+            _hover={{ textDecoration: "underline" }}
           >
-            Show Tasks
+            View Your Tasks
           </Link>
         </Text>
       </Stack>
