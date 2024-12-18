@@ -83,7 +83,7 @@ router.put('/:userID', validateToken, async (req, res)=>{
 
     const collection = await db.collection('users');
     try{
-        //If user asked to update the password
+        //If user asked to update the password. hash the new password 
         if(req.body.password)
         {
             req.body.password = await bcrypt.hash(req.body.password, 10);

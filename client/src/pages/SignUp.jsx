@@ -22,6 +22,8 @@ import {
 export default function SignUp() {
   const { updateUser } = useUser();
   const navigate = useNavigate();
+  
+  //using useForm Hook to handle Form submission
   const {
     handleSubmit,
     register,
@@ -32,7 +34,7 @@ export default function SignUp() {
     try {
       const response = await axios.post(
         `${API_URL}/auth/signup`,
-        JSON.stringify(formValues),
+        formValues,
         {
           headers: {
             "Content-Type": "application/json",
