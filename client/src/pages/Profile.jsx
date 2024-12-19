@@ -39,7 +39,7 @@ export default function Profile() {
   const submitForm = async (formValues) => {
     try {
       const response = await axios.put(
-        `${API_URL}/users/${user._id}`,
+        `${API_URL}/users/update/${user.email}`,
         formValues,
         {
           withCredentials: true,
@@ -62,7 +62,7 @@ export default function Profile() {
 
   const deleteUser = async () => {
     try {
-      const response = await axios.delete(`${API_URL}/users/delete/${user._id}`, {
+      const response = await axios.delete(`${API_URL}/users/delete/${user.email}`, {
         withCredentials: true,
       });
       if (response.status === 200) {

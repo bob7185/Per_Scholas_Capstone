@@ -31,10 +31,10 @@ router.post('/signup', async (req, res)=>{
         user._id = insertedId;
         const { password: pass, createdAt, ...rest } = user;
         res
-          .cookie('token', token, { httpOnly: true })
+          .cookie('token', token, { httpOnly: true, sameSite: true })
           .status(200)
           .json(rest);
-          //console.log('cookie has been sent')
+          console.log('cookie has been sent back in the response')
     }catch (error) {
         res.status(500).json({ message: 'Error creating user', error });
     }

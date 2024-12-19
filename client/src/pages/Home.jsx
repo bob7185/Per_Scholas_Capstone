@@ -9,6 +9,8 @@ import {
   Image,
 } from '@chakra-ui/react';
 
+import image from '../assets/image.jpeg'
+
 export default function Home() {
   return (
     <Flex
@@ -74,6 +76,7 @@ export default function Home() {
           <Text fontSize='2xl' color='blue.700'>
             PlaceHolder for Image
           </Text>
+          <Image src={image}></Image>
         </Box>
       </Box>
     </Flex>

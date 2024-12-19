@@ -90,8 +90,8 @@ export default function Nav() {
                 <MenuItem as={RouterLink} to="/profile" _hover={{ bg: "gray.100" }}>
                   Profile
                 </MenuItem>
-                <MenuItem as={RouterLink} to="/projects" _hover={{ bg: "gray.100" }}>
-                  Projects
+                <MenuItem as={RouterLink} to="/tasks" _hover={{ bg: "gray.100" }}>
+                  Tasks
                 </MenuItem>
                 <MenuItem onClick={signOut} _hover={{ bg: "gray.100" }}>
                   Sign Out
