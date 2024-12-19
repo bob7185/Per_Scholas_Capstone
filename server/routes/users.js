@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt'
 
 const router = express.Router();
 
-// Show all users
+//  GET /users Show all users
 router.get('/', async (req, res) => {
    const collection = await db.collection('users');
    const result = await collection.find({}).toArray();

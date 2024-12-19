@@ -72,10 +72,7 @@ export default function Home() {
           justifyContent='center'
           alignItems='center'
         >
-          <Text fontSize='2xl' color='blue.700'>
-            PlaceHolder for Image
-          </Text>
-          <Image src={image}></Image>
+          <Image src={image} alt ='Image of a todo list' objectFit='cover' w='100%' h='100%'></Image>
         </Box>
       </Box>
     </Flex>
