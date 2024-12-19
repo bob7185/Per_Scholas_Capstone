@@ -2,7 +2,6 @@ import express from 'express';
 import 'dotenv/config.js';
 import usersRouter from './routes/users.js';
 import tasksRouter from './routes/tasks.js';
-import projectsRouter from './routes/projects.js';
 import authRouter from './routes/auth.js'
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
@@ -19,7 +18,6 @@ app.use(cors({
 
 // Middleware for routes
 app.use('/users', usersRouter);
-app.use('/projects', projectsRouter);
 app.use('/tasks', tasksRouter);
 app.use('/auth', authRouter)
 

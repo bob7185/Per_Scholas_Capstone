@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+
 import express from 'express';
 import { db } from '../config/dbConnect.js';
 import bcrypt from 'bcrypt'
@@ -36,33 +36,9 @@ router.post('/', async (req, res) => {
     }
 });
 
-// middleware that will check the token parsed by cookie-parser, 
-// const validateToken = (req, res, next)=>{
-//     const token = req.cookies.token;
-//     // if req body doesn't have a token it means user is not authenticated
-//     if(!token){
-//         return next({status: 400, message: 'Unauthorized' });
-//     } 
-//     //decrypt token in the request body 
-//     jwt.verify(token, process.env.AUTH_SECRET, (err, user) =>{
-//         if (err)
-//         {
-//             return  next({status: 402, message: 'Forbidden'});
-//         }
-//         req.user = user;
-//         next();
-//     });
-// }
-
-// DELETE  /users/delete/:userID - Delete a user
+// DELETE  /users/delete/:email - Delete a user 
 router.delete('/delete/:email', async (req, res) => {
     const userEmail = req.params.email;
-    // if (req.user.id !== userID)
-    // {
-    //     return (
-    //         res.status(403).json({message: 'You can only delete your own account'})
-    //     )
-    // }
     try {
         const result = await db.collection('users').deleteOne({ email: userEmail});
         res.status(200).json({ message: 'User deleted successfully' });
@@ -71,16 +47,9 @@ router.delete('/delete/:email', async (req, res) => {
     }
 });
 
-// Put  /users/:userID - Update a user
+// Put  /update/:email - Update a user
 router.put('/update/:email', async (req, res)=>{
     const userEmail = req.params.email;
-    // if (req.user.id !== userID)
-    // {
-    //     return (
-    //         res.status(403).json({message: 'You can only update your own account'})
-    //     )
-    // }
-
     const collection = await db.collection('users');
     try{
         //If user asked to update the password. hash the new password 

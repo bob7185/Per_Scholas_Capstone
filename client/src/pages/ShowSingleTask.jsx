@@ -13,7 +13,6 @@ import {
   Link,
   Card,
   CardBody,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { BsChevronLeft } from "react-icons/bs";
 import SingleTaskSkeleton from "../skeletons/SingleTaskSkeleton";
@@ -31,7 +30,6 @@ export default function ShowSingleTask() {
     };
     fetchTask();
   }, []);
-  console.log(task);
 
   const handleDeleteTask = async () => {
     const res = await axios.delete(`${API_URL}/tasks/delete/${taskId}`);

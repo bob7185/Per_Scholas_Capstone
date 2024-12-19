@@ -63,7 +63,6 @@ export default function Home() {
         </Link>
       </Stack>
       <Box flex='1' display='flex' justifyContent='center'>
-        {/* Placeholder for the image */}
         <Box
           w={{ base: '250px', md: '350px' }}
           h={{ base: '250px', md: '350px' }}

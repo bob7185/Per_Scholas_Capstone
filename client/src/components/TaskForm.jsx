@@ -1,4 +1,4 @@
-
+// Task form
 import { useForm, Controller } from 'react-hook-form';
 import { API_URL } from "../utilities";
 import { toast } from 'react-hot-toast';
@@ -43,7 +43,7 @@ export default function TaskForm({ type, task }) {
         },
       });
       if (response.status === 200) {
-        toast.success(`New Task Created: ${values.name}`);
+        toast.success(`New Task Created!`);
         navigate(`/tasks`);
       } else {
         toast.error('Error while creating task');
@@ -58,8 +58,8 @@ export default function TaskForm({ type, task }) {
         },
       });
       if (res.status === 200) {
-        toast.success(`Task Updated: ${values.name}`);
-        // navigate(`/tasks/${task._id}`);
+        toast.success(`Task Updated!`);
+        navigate(`/tasks`);
       } else {
         toast.error('Error updating task');
       }
@@ -121,30 +121,6 @@ export default function TaskForm({ type, task }) {
               {errors.status && errors.status.message}
             </FormErrorMessage>
           </FormControl>
-          {/* <FormControl
-            sx={{
-              '.react-datepicker-wrapper': {
-                width: '100%',
-              },
-            }}
-          >
-            <Controller
-              control={control}
-              name='due'
-              render={({ field }) => (
-                <Input
-                  as={DatePicker}
-                  id='due'
-                  {...field}
-                  selected={field.value}
-                  showTimeSelect
-                  timeInputLabel='Time:'
-                  dateFormat='MM/dd/yyyy h:mm aa'
-                  placeholderText='Due Date (Optional)'
-                />
-              )}
-            />
-          </FormControl> */}
           <Button
             type='submit'
             isLoading={isSubmitting}
