@@ -149,4 +149,4 @@ TaskPal is a productivity application designed to streamline project and task ma
 
 ---
 
-Feel free to contribute to this project or report issues in the respective repositories.
+Inspired from the book : Mern Web Development for Beginners by Nathan Sebastian
